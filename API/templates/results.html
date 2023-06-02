@@ -4,7 +4,16 @@
     <title>Music Albums Search</title>
   </head>
   <body>
+  <form action = "/" method = "post">
+        <label for = "artist">Artist Name:</label>
+        <input type = "text" name = "artist" required>
+        <button type = "submit">Search</button>
+    </form>
     <h1>Albums for {{ artist }}</h1>
+  <form action = "/" method = "post">
+        <input type = "hidden">
+        <button type = "submit">Sort</button>
+    </form>
     <table>
       <thead>
         <tr>
@@ -13,19 +22,13 @@
           <th>Description</th>
         </tr>
       </thead>
-       <form id="sortForm" action="{{ url_for('sort') }}" method="post">
-      <input type="hidden" name="sortOrder" value="{{ sort_order }}">
-      <button type="submit">
-        {% if sort_order == 'asc' %}
-        Sort Ascending
-        {% else %}
-        Sort Descending
-        {% endif %}
       <tbody>
         {% for album in albums | sort(attribute='intYearReleased') %}
         <tr>
           <td>{{ album.strAlbum }}</td>
+
           <td>{{ album.intYearReleased }}</td>
+
           <td>{{ album.strDescriptionEN }}</td>
         </tr>
         {% endfor %}

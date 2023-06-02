@@ -17,10 +17,16 @@ def index():
         # we can then pass that on to results.html
         save_albums_to_db(artist_name, albums)
         return render_template('results.html', artist=artist_name, albums=albums)
-    # if the user visite the index page without submitting the form,
+    # if the user visit the index page without submitting the form,
     # then request method will be GET
     return render_template('index.html')
-
+    order = False
+    if "order" in request.form and request.form["order"] == "True":
+        order = True
+    if "order" in request.form and request.form["order"] == "False":
+        order = False
+    return render_template('results.html', artist=artist_name, albums=albums, sort=sort, order=order)
+    return render_template('index.html')
 
 def search_albums(artist_name):
     API_KEY = '523532'
@@ -40,9 +46,9 @@ def save_albums_to_db(artist_name, albums):
 
     for album in albums:
         c.execute("INSERT INTO albums VALUES (?,?,?)", (artist_name, album['strAlbum'], album['intYearReleased']))
+
     conn.commit()
     conn.close()
-
 
 
 if __name__ == '__main__':
